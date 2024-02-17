@@ -1,0 +1,101 @@
+curl
+book: https://curl.haxx.se/book.html
+https://everything.curl.dev/
+----
+
+00. curl https://example.com/ -o response.txt
+:   -o -> save the response of a request to a file
+
+
+01. curl -c cookiejar.txt https://example.com/login_form
+:   fetch the cookies from a website with option -c
+
+02. curl -b cookiejar.txt -c cookiejar.txt https://example.com/login -d user=daniel -d password=1234
+:   send cookies back to the website with option -b
+:   fetch the updated cookies with the option -c
+:   -d -> is used to make a post request for login
+
+
+
+03. curl -b cookiejar.txt -c cookiejar.txt https://example.com/profile
+:   access the profile page on website after command 02.
+
+
+04. curl -k https://127.0.0.1 -H "Host: example.com"
+:   -k -> tells curl to ignore certificates if not found
+:   -H -> provides a header to the get request.
+:   This kind of request works with cookies but not with virtual server
+:   Alternative - see command 05.
+
+
+05. curl https://example.com/ --resolve example.com:443:127.0.0.1
+:   This is a better alternative to command 04.
+:   This works for cookies, TLS and certicates as well as virtual server.
+
+
+06. curl https://example.com/ -d sendthisdata --trace-ascii -
+:   -d sends a post request with data "sendthisdata"
+:   --trace-ascii -> shows details of command event in ascii text
+-   - it is a better alternate to verbose "-v" option
+
+
+07. --write-out (-w) -> this option is used to extract transfer meta-data
+:   -w 'text and %{variables} to see' -> this is how it is used
+:   The variables includes: content_type, http_version, remote_ip, local_ip, speed_download
+
+
+08. curl https://example.com/ --libcurl sourcecode.c
+:   --libcurl -> instructs curl to generate a code in c language that performs the same thing
+-   - as the main curl command.
+-   - The c code can be compiled "gcc sourcecode.c -lcurl -o ./myapp" and executed
+
+
+
+09. curl -d user=daniel https://example.com/ https://another.com/
+:   Makes different request on the same command
+:   This command sends a post request to two websites by sending the same data.
+:   Sends a POST request to the first website
+:   --next -> tell curl to reset the command line parser and go back to default
+-   - hence, it will send a GET request to the following website
+
+
+------
+POST
+option "-d" uses as default Content-Type: application/x-www-form-urlencoded
+use the option "-H" to change the content-type.
+------
+10. curl -d 'name=admin&shoesize=12' https://example.com/    : post data to a website
+11. curl -d name=admin -d shoesize=12 https://example.com/   : post data to a website with seperate flags
+12. curl -d @filename https://example.com/                   : post data to a website from file
+13. curl --data-raw '@string' https://example.com/           : post raw data to a website
+14. curl --data-binary @filename https://example.com/        : post raw file in binary to a website
+
+---------
+POST-JSON
+---------
+15. curl --json '{"name": "daniel"}' https://example.com     : post json data to website
+-                                                            - It sets the following headers
+-                                                            - Content-Type: application/json
+-                                                            - Accept: application/json
+
+16. curl --json @object.json https://example.com             : post json data to website from json file
+17. jo -p name=jo n=17 parser=false | curl --json @- \
+    https://example.com                                      : post json data to website from json data
+-                                                            - created on the command line.
+-                                                            - observe that the curl command uses @- to
+-                                                            - read json input from std input
+
+18. jo -p name=jo n=17 parser=false | curl --json @- \
+    https://example.com | jq                                 : This is command is same as command 17.
+-                                                            - Its additionally piped to jq for parsing
+
+
+-------------------
+POST : URL encoding
+-------------------
+19. curl --data-urlencode "name=john doe (junior) \
+    https://example.com                                      : encode data to url compliant and send
+-                                                            - will send name=john%20doe%20%28junior%29
+
+ 
+    

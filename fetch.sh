@@ -36,7 +36,8 @@ do
     SYM=$(awk -v sym_id=$IDX_SYM 'NR == sym_id {print}' $FILE_SYM)
 
     # print msg on screen - progress
-    printf 'Fetch data for Symbol: %s: %s\n' "$IDX_SYM" "$SYM"
+    MSG=$(printf 'Fetch data for Symbol: %s (%s/%s)\n' "$SYM" "$IDX_SYM" "$TOTAL_SYMBOLS")
+    echo $MSG
 
     # edit query
     CUR_QUERY_STATS_VAL=$(echo ${QUERY_STATS_VAL} | sed -n "s/COIN/${SYM}/gp")
@@ -45,14 +46,14 @@ do
     CUR_QUERY_HISTORY=$(echo ${QUERY_HISTORY} | sed -n "s/COIN/${SYM}/gp")
 
     # show url query
-    echo ${CUR_QUERY_STATS_VAL}
-    echo ${CUR_QUERY_SHARES_INFO}
+    # echo ${CUR_QUERY_STATS_VAL}
+    # echo ${CUR_QUERY_SHARES_INFO}
 
     # fetch data 
-    curl -L ${CUR_QUERY_STATS_VAL} | jq > "${SYM}_VAL.${FILE_OUT_EXT}"
-    curl -L ${CUR_QUERY_STOCK_PRICE} | jq > "${SYM}_STOCK_PRICE.${FILE_OUT_EXT}"
-    curl -L ${CUR_QUERY_SHARES_INFO} -H "${COOKIE}" | jq > "${SYM}_SHARES_INFO.${FILE_OUT_EXT}"
-    curl -L ${CUR_QUERY_HISTORY} | jq > "${SYM}_HIST.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_STATS_VAL} | jq > "${SYM}_VAL.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_STOCK_PRICE} | jq > "${SYM}_STOCK_PRICE.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_SHARES_INFO} -H "${COOKIE}" | jq > "${SYM}_SHARES_INFO.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_HISTORY} | jq > "${SYM}_HIST.${FILE_OUT_EXT}"
     
     # delay
     sleep 1

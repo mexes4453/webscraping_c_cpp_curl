@@ -8,8 +8,8 @@ FILE_SYM='symbols.txt'
 FILE_OUT_EXT='json'
 
 # Get the total number of company symbols available
-#TOTAL_SYMBOLS=$(wc -l $FILE_SYM | awk '{print $1}')
-TOTAL_SYMBOLS=2
+TOTAL_SYMBOLS=$(wc -l $FILE_SYM | awk '{print $1}')
+#TOTAL_SYMBOLS=2
 
 # Initialise the index for iteration
 IDX_SYM=1

@@ -59,14 +59,14 @@ do
     # echo ${CUR_QUERY_SHARES_INFO}
 
     # fetch data 
-#    curl -sL ${CUR_QUERY_STATS_VAL} | jq > "${SYM}_VAL.${FILE_OUT_EXT}"
-#    curl -sL ${CUR_QUERY_STOCK_PRICE} | jq > "${SYM}_STOCK_PRICE.${FILE_OUT_EXT}"
-#    curl -sL ${CUR_QUERY_SHARES_INFO} -H "${COOKIE}" | jq > "${SYM}_SHARES_INFO.${FILE_OUT_EXT}"
-#    curl -sL ${CUR_QUERY_HISTORY} | jq > "${SYM}_HIST.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_STATS_VAL} | jq > "${SYM}_VAL.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_STOCK_PRICE} | jq > "${SYM}_STOCK_PRICE.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_SHARES_INFO} -H "${COOKIE}" | jq > "${SYM}_SHARES_INFO.${FILE_OUT_EXT}"
+    curl -sL ${CUR_QUERY_HISTORY} | jq > "${SYM}_HIST.${FILE_OUT_EXT}"
     curl -sL ${CUR_QUERY_BAL_SHT} | jq > "${SYM}_BAL_SHT.${FILE_OUT_EXT}"
     
     # delay
-    if (( $IDX_SYM % 4  == 0 ))
+    if (( $IDX_SYM % 2  == 0 ))
     then
         sleep 1
     fi
